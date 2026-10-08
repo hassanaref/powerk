@@ -1,0 +1,13 @@
+app = "your-app-name"
+primary_region = "iad"
+
+[build]
+
+# Internal and external port mapping
+[[services]]
+  internal_port = 5000          # The port powerk.py binds to
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 5000                 # The external port for clients/devices
+    # Note: handlers must be omitted so Fly passes raw TCP without HTTP parsing
