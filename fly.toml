@@ -1,13 +1,25 @@
-app = "your-app-name"
+app = "powerk"
 primary_region = "iad"
 
 [build]
 
-# Internal and external port mapping
+# 1. Raw TCP for the smart strip hardware
 [[services]]
-  internal_port = 5000          # The port powerk.py binds to
+  internal_port = 10086
   protocol = "tcp"
 
   [[services.ports]]
-    port = 5000                 # The external port for clients/devices
-    # Note: handlers must be omitted so Fly passes raw TCP without HTTP parsing
+    port = 10086
+
+# 2. HTTP Web Interface for your browser / phone
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
